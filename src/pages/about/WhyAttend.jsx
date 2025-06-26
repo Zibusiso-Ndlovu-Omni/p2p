@@ -13,6 +13,7 @@ import {
     SparklesIcon,
     BookOpenIcon
 } from "@heroicons/react/24/outline"
+import aboutImage2 from "../../assets/2.jpg";
 
 export default function WhyAttend() {
     const reasons = [
@@ -150,20 +151,32 @@ export default function WhyAttend() {
                 </div>
 
                 {/* Call to Action */}
-                <div className="text-center bg-gray-900 rounded-lg p-12">
-                    <Typography variant="h3" className="text-2xl md:text-3xl font-bold text-white mb-4">
-                        Ready to Transform Your Trade Business?
-                    </Typography>
-                    <Typography className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                        Join hundreds of trade professionals, logistics experts, and business leaders at P2P Zimbabwe 2025.
-                    </Typography>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
-                            Register to Attend
-                        </button>
-                        <button className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
-                            Learn More
-                        </button>
+                <div className="text-center relative rounded-lg p-12">
+                    {/* background image */}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80 z-0"
+                        style={{
+                            backgroundImage: `url(${aboutImage2})`,
+                        }}
+                    ></div>
+                    {/* background overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/70 to-black/70"></div>
+
+                    <div className="relative">
+                        <Typography variant="h3" className="text-2xl md:text-3xl font-bold text-white mb-4">
+                            Ready to Transform Your Trade Business?
+                        </Typography>
+                        <Typography className="text-gray-300 mb-8 max-w-2xl mx-auto">
+                            Join hundreds of trade professionals, logistics experts, and business leaders at P2P Zimbabwe 2025.
+                        </Typography>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                                Register to Attend
+                            </button>
+                            <button className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                                Learn More
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

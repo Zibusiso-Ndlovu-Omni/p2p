@@ -1,11 +1,22 @@
 import {Typography} from "@material-tailwind/react";
+import aboutImage from "../../assets/1.jpg";
 
 function About() {
 
     return (
         <>
-            <section className="py-16 bg-gray-800">
-                <div className="container mx-auto px-4">
+            <section className="relative py-16 bg-gray-800">
+                {/* background image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80 z-0"
+                    style={{
+                        backgroundImage: `url(${aboutImage})`,
+                    }}
+                ></div>
+                {/* background overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
+
+                <div className="container mx-auto px-4 z-50 relative">
                     <div className="max-w-4xl mx-auto text-center">
                         <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-white mb-6">
                             What is P2P?

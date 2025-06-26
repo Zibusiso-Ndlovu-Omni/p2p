@@ -7,7 +7,8 @@ import BlogPost from "./pages/blog/BlogPost.jsx";
 import Contact from "./pages/contact/Contact.jsx";
 import Exhibit from "./pages/exhibit/Exhibit.jsx";
 import Magazine from "./pages/magazine/Magazine.jsx";
-import SponsorshipPricing from "./pages/sponsor/SponsorshipPricing.jsx";
+import Sponsorship from "./pages/sponsor/Index.jsx";
+
 
 
 const router = createBrowserRouter([
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "sponsor",
-        element: <SponsorshipPricing />,
+        element: <Sponsorship />,
       },
     ],
   },
