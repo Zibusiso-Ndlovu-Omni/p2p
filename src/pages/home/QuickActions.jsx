@@ -1,10 +1,15 @@
 import {Button, Card, CardBody, CardHeader, Typography} from "@material-tailwind/react";
 import {NewspaperIcon, TrophyIcon, UserGroupIcon} from "@heroicons/react/24/outline";
+import quickActionBg from "../../assets/11.jpg";
 
 function QuickActions() {
     return (
         <>
-            <section className="py-16">
+            <section
+                className="py-16 bg-cover bg-center relative"
+                style={{ backgroundImage: `url(${quickActionBg})` }}
+            >
+                <div className="absolute inset-0 bg-black opacity-70"></div>
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-12 lg:grid-cols-4 lg:gap-6">
                         <Card className="bg-transparent shadow-xl hover:shadow-2xl transition-all duration-300 border-1 border-amber-500">
@@ -91,4 +96,4 @@ function QuickActions() {
     )
 }
 
-export default QuickActions
+export default QuickActions;

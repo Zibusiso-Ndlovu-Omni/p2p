@@ -24,7 +24,7 @@ function SponsorshipPricing() {
                                         Headline Sponsor
                                     </Typography>
                                     <Typography variant="h3" className="text-gray-800 font-bold">
-                                        $5,000
+                                        $10,000
                                     </Typography>
                                 </CardHeader>
                                 <CardBody className="pt-0 my-4">
@@ -45,10 +45,10 @@ function SponsorshipPricing() {
                             <Card className="bg-gray-800 border-gray-700 transform hover:scale-105 transition-transform duration-300">
                                 <CardHeader className="text-center pb-4 bg-amber-400">
                                     <Typography variant="h6" className="text-gray-900 mb-2 mt-4">
-                                        Gala Sponsor
+                                        Awards Gala Sponsor
                                     </Typography>
                                     <Typography variant="h3" className="text-gray-800 font-bold">
-                                        $2,500
+                                        $8,000
                                     </Typography>
                                 </CardHeader>
                                 <CardBody className="pt-0 my-4">
@@ -73,10 +73,10 @@ function SponsorshipPricing() {
                             <Card className="bg-gray-800 border-gray-700 transform hover:scale-105 transition-transform duration-300">
                                 <CardHeader className="text-center pb-4 bg-amber-400">
                                     <Typography variant="h6" className="text-gray-900 mb-2 mt-4">
-                                        Awards Night Sponsor
+                                        Cocktail Sponsor
                                     </Typography>
                                     <Typography variant="h3" className="text-gray-800 font-bold">
-                                        $2,500
+                                        $5,000
                                     </Typography>
                                 </CardHeader>
                                 <CardBody className="pt-0 my-4">
@@ -101,10 +101,10 @@ function SponsorshipPricing() {
                             <Card className="bg-gray-800 border-gray-700 transform hover:scale-105 transition-transform duration-300">
                                 <CardHeader className="text-center pb-4 bg-amber-400">
                                     <Typography variant="h6" className="text-gray-900 mb-2 mt-4">
-                                        Sponsor
+                                        Host a Work Shop
                                     </Typography>
                                     <Typography variant="h3" className="text-gray-800 font-bold">
-                                        $2,000
+                                        $1,000/hr
                                     </Typography>
                                 </CardHeader>
                                 <CardBody className="pt-0 my-4">
@@ -120,7 +120,7 @@ function SponsorshipPricing() {
                                         variant="outlined"
                                         className="border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900"
                                     >
-                                        Request Sponsor Pack
+                                        Request Here
                                     </Button>
                                 </CardBody>
                             </Card>

@@ -16,21 +16,21 @@ export default function Magazine() {
     const adRates = [
         {
             name: "Quarter Page",
-            price: "$120",
+            price: "$200",
             description: "Perfect for small businesses",
             features: ["High-quality print", "Digital version included", "Brand visibility"],
             popular: false
         },
         {
             name: "Half Page",
-            price: "$200",
+            price: "$300",
             description: "Great exposure for your brand",
             features: ["High-quality print", "Digital version included", "Brand visibility", "Priority placement"],
             popular: true
         },
         {
             name: "Full Page",
-            price: "$300",
+            price: "$450",
             description: "Maximum impact advertising",
             features: ["High-quality print", "Digital version included", "Brand visibility", "Priority placement", "Premium positioning"],
             popular: false
@@ -40,73 +40,85 @@ export default function Magazine() {
     const premiumCovers = [
         {
             name: "Back Cover",
-            price: "$450",
+            price: "$900",
         },
         {
             name: "Inside Front Cover",
-            price: "$500",
+            price: "$850",
         },
         {
             name: "Inside Back Cover",
-            price: "$500",
+            price: "$650",
         },
         {
             name: "Front Cover (Exclusive)",
-            price: "$600",
+            price: "$1000",
         }
     ];
 
     const handleOpen = () => setOpen(!open);
 
     return (
-        <div className="min-h-screen bg-gray-300 py-20">
+        <div className="min-h-screen bg-gray-100 py-20">
             <div className="container mx-auto px-4">
                 {/* Header Section */}
                 <div className="text-center mb-16">
-                    <div className="flex justify-center items-center mb-6">
-                        <NewspaperIcon className="h-16 w-16 text-amber-400 mr-4" />
-                        <div>
-                            <Typography variant="h1" className="text-4xl md:text-6xl font-bold text-gray-900 mb-2">
-                                Advertise in the Official
-                            </Typography>
-                            <Typography variant="h1" className="text-4xl md:text-6xl font-bold text-amber-600">
-                                P2P Journal
-                            </Typography>
-                        </div>
+                    {/* Background Image */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-800/80">
+                        <img
+                            src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                            alt="Magazine printing press"
+                            className="w-full h-full object-cover opacity-40"
+                        />
                     </div>
-                    <Typography className="text-xl text-gray-800 max-w-4xl mx-auto mb-8">
-                        Reach hundreds of industry professionals, importers, exporters, and decision-makers 
-                        through our exclusive publication distributed at the P2P Zimbabwe 2025 event.
-                    </Typography>
-                    
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
-                        <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
-                            <Typography variant="h3" className="text-amber-600 font-bold">500+</Typography>
-                            <Typography className="text-gray-700 text-sm">Attendees</Typography>
+
+                    {/* background overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
+                    <div className="z-50 relative">
+                        <div className="flex justify-center items-center mb-6">
+                            <div>
+                                <Typography variant="h1" className="text-4xl md:text-6xl font-bold text-gray-200 mb-2">
+                                    Advertise in the Official
+                                </Typography>
+                                <Typography variant="h1" className="text-4xl md:text-6xl font-bold text-amber-600">
+                                    P2P Journal
+                                </Typography>
+                            </div>
                         </div>
-                        <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
-                            <Typography variant="h3" className="text-amber-600 font-bold">100+</Typography>
-                            <Typography className="text-gray-700 text-sm">Companies</Typography>
-                        </div>
-                        <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
-                            <Typography variant="h3" className="text-amber-600 font-bold">2 Days</Typography>
-                            <Typography className="text-gray-700 text-sm">Exposure</Typography>
-                        </div>
-                        <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
-                            <Typography variant="h3" className="text-amber-600 font-bold">Digital</Typography>
-                            <Typography className="text-gray-700 text-sm">+ Print</Typography>
+                        <Typography className="text-xl text-gray-400 max-w-4xl mx-auto mb-8">
+                            Reach hundreds of industry professionals, importers, exporters, and decision-makers
+                            through our exclusive publication distributed at the P2P Zimbabwe 2025 event.
+                        </Typography>
+
+                        {/* Quick Stats */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
+                            <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
+                                <Typography variant="h3" className="text-amber-600 font-bold">500+</Typography>
+                                <Typography className="text-gray-600 text-sm">Attendees</Typography>
+                            </div>
+                            <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
+                                <Typography variant="h3" className="text-amber-600 font-bold">100+</Typography>
+                                <Typography className="text-gray-600 text-sm">Companies</Typography>
+                            </div>
+                            <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
+                                <Typography variant="h3" className="text-amber-600 font-bold">2 Days</Typography>
+                                <Typography className="text-gray-600 text-sm">Exposure</Typography>
+                            </div>
+                            <div className="bg-gray-900/10 backdrop-blur-sm rounded-lg p-4 border border-gray-700/20">
+                                <Typography variant="h3" className="text-amber-600 font-bold">Digital</Typography>
+                                <Typography className="text-gray-600 text-sm">+ Print</Typography>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Standard Ad Rates */}
-                <div className="mb-16">
+                <div className="mb-16 z-50 relative">
                     <div className="text-center mb-12">
-                        <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-gray-200 mb-4">
                             Standard Advertisement Rates
                         </Typography>
-                        <Typography className="text-lg text-gray-700">
+                        <Typography className="text-lg text-gray-400">
                             Choose the perfect size for your marketing needs
                         </Typography>
                     </div>
@@ -142,8 +154,8 @@ export default function Magazine() {
                                             </div>
                                         ))}
                                     </div>
-                                    <Button 
-                                        size="lg" 
+                                    <Button
+                                        size="lg"
                                         className={`w-full ${ad.popular ? 'bg-amber-400 text-gray-900 hover:bg-amber-500' : 'bg-transparent border border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900'}`}
                                         onClick={handleOpen}
                                     >
@@ -183,8 +195,8 @@ export default function Magazine() {
                                     <Typography variant="h3" className="text-amber-400 mb-4">
                                         {cover.price}
                                     </Typography>
-                                    <Button 
-                                        size="sm" 
+                                    <Button
+                                        size="sm"
                                         variant="outlined"
                                         className="border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900"
                                         onClick={handleOpen}
@@ -207,18 +219,18 @@ export default function Magazine() {
                                         View Previous Edition
                                     </Typography>
                                     <Typography className="text-gray-300 mb-6">
-                                        Get a preview of our publication quality and see how your advertisement 
+                                        Get a preview of our publication quality and see how your advertisement
                                         will look alongside premium content about logistics, trade, and industry insights.
                                     </Typography>
                                     <div className="flex flex-col sm:flex-row gap-4">
-                                        <Button 
+                                        <Button
                                             size="lg"
                                             className="bg-amber-400 text-gray-900 hover:bg-amber-500 flex items-center gap-2"
                                         >
                                             <DocumentArrowDownIcon className="h-5 w-5" />
                                             Download PDF
                                         </Button>
-                                        <Button 
+                                        <Button
                                             size="lg"
                                             variant="outlined"
                                             className="border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 flex items-center gap-2"
@@ -250,11 +262,11 @@ export default function Magazine() {
                                 Ready to Advertise?
                             </Typography>
                             <Typography className="text-gray-800 text-lg mb-8 max-w-2xl mx-auto">
-                                Join leading brands in the official P2P Zimbabwe 2025 Journal. 
+                                Join leading brands in the official P2P Zimbabwe 2025 Journal.
                                 Book your space today and reach your target audience effectively.
                             </Typography>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Button 
+                                <Button
                                     size="lg"
                                     className="bg-gray-900 text-white hover:bg-gray-800 flex items-center gap-2"
                                     onClick={handleOpen}
@@ -262,7 +274,7 @@ export default function Magazine() {
                                     <PaintBrushIcon className="h-5 w-5" />
                                     Book Ad Space
                                 </Button>
-                                <Button 
+                                <Button
                                     size="lg"
                                     variant="outlined"
                                     className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white flex items-center gap-2"
@@ -313,14 +325,6 @@ export default function Magazine() {
                                 onClick={handleOpen}
                             >
                                 Contact Sales Team
-                            </Button>
-                            <Button 
-                                size="lg"
-                                variant="outlined"
-                                className="border-gray-600 text-gray-300 hover:bg-gray-800 flex-1"
-                                onClick={handleOpen}
-                            >
-                                Upload Artwork
                             </Button>
                         </div>
                     </div>
