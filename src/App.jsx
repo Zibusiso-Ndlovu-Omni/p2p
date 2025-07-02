@@ -8,6 +8,9 @@ import Contact from "./pages/contact/Contact.jsx";
 import Exhibit from "./pages/exhibit/Exhibit.jsx";
 import Magazine from "./pages/magazine/Magazine.jsx";
 import Sponsorship from "./pages/sponsor/Index.jsx";
+import SystemLayout from "./system/components/SystemLayout.jsx";
+import ExhibitorDashboard from "./system/pages/ExhibitorDashboard.jsx";
+import AttendantDashboard from "./system/pages/AttendantDashboard.jsx";
 
 
 
@@ -50,6 +53,26 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <ExhibitorDashboard />,
+      },
+    ]
+  },
+  {
+    path: "/home",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <AttendantDashboard />,
+      },
+    ]
+  }
 ]);
 
 function App() {
