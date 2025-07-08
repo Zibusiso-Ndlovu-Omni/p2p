@@ -9,8 +9,9 @@ import Exhibit from "./pages/exhibit/Exhibit.jsx";
 import Magazine from "./pages/magazine/Magazine.jsx";
 import Sponsorship from "./pages/sponsor/Index.jsx";
 import SystemLayout from "./system/components/SystemLayout.jsx";
-import ExhibitorDashboard from "./system/pages/ExhibitorDashboard.jsx";
-import AttendantDashboard from "./system/pages/AttendantDashboard.jsx";
+import ExhibitorDashboard from "./system/pages/exhibitor/ExhibitorDashboard.jsx";
+import AttendantDashboard from "./system/pages/attendant/AttendantDashboard.jsx";
+import Test from "./system/pages/Test.jsx";
 
 
 
@@ -72,7 +73,19 @@ const router = createBrowserRouter([
         element: <AttendantDashboard />,
       },
     ]
+  },
+    //test endpoint
+  {
+    path: "/test",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <Test />,
+      },
+    ]
   }
+
 ]);
 
 function App() {

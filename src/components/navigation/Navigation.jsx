@@ -71,6 +71,17 @@ export default function Navigation() {
             >
                 <Link to="/contact">Contact</Link>
             </Typography>
+
+            <Typography
+                as="li"
+                variant="small"
+                className="relative p-2 font-medium text-gray-200 hover:text-amber-400 cursor-pointer transition-all duration-300
+                          before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-amber-400
+                          before:transition-all before:duration-300 hover:before:w-full"
+            >
+                <Link to="/test">Scan Qr</Link>
+            </Typography>
+
         </ul>
     )
 

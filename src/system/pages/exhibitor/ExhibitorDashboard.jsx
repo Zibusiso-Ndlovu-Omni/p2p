@@ -195,13 +195,14 @@ const ExhibitorDashboard = () => {
         );
     };
 
+    // Parse QR code data - handles both JSON and simple text formats
     const parseQRData = (qrText) => {
         try {
             // Try parsing as JSON first
             const jsonData = JSON.parse(qrText);
             return {
                 id: jsonData.id || Date.now(),
-                name: jsonData.name || jsonData.fullName || "Unknown",
+                first_name: jsonData.first_name || "",
                 email: jsonData.email || "",
                 phone: jsonData.phone || jsonData.phoneNumber || "",
                 company: jsonData.company || jsonData.organization || "",
@@ -218,7 +219,7 @@ const ExhibitorDashboard = () => {
                 const vCardData = parseVCard(qrText);
                 return {
                     id: Date.now(),
-                    name: vCardData.name || "Unknown",
+                    first_name: vCardData.first_name || "Unknown",
                     email: vCardData.email || "",
                     phone: vCardData.phone || "",
                     company: vCardData.company || "",
@@ -231,9 +232,9 @@ const ExhibitorDashboard = () => {
             // For simple text, return basic info
             return {
                 id: Date.now(),
-                name: lines[0] || "Unknown Contact",
+                first_name: lines[0] || "Unknown Contact",
                 email: lines.find(line => line.includes('@')) || "",
-                phone: lines.find(line => /[\d\-()\s+]{10,}/.test(line)) || "",
+                phone: lines.find(line => /[\d\-\(\)\s\+]{10,}/.test(line)) || "",
                 company: lines[1] || "",
                 position: "",
                 budget: "Not specified",
@@ -249,7 +250,7 @@ const ExhibitorDashboard = () => {
 
         lines.forEach(line => {
             if (line.startsWith('FN:')) {
-                vCardData.name = line.substring(3);
+                vCardData.first_name = line.substring(3);
             } else if (line.startsWith('EMAIL:')) {
                 vCardData.email = line.substring(6);
             } else if (line.startsWith('TEL:')) {
@@ -415,7 +416,7 @@ const ExhibitorDashboard = () => {
                 // Add new attendee
                 const newAttendee = {
                     ...scanResult,
-                    id: Date.now(),
+                    id: Date.now(), // Generate unique ID
                     status: "Cold Lead",
                     interestedProducts: [selectedProductForQR],
                     contactDate: new Date().toISOString().split('T')[0],
@@ -813,7 +814,7 @@ const ExhibitorDashboard = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                                 <div>
                                                     <span className="font-medium text-gray-600">Name:</span>
-                                                    <p className="text-gray-900">{scanResult.name}</p>
+                                                    <p className="text-gray-900">{scanResult.first_name}</p>
                                                 </div>
                                                 <div>
                                                     <span className="font-medium text-gray-600">Email:</span>
