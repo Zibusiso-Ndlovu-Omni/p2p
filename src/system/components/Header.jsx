@@ -1,10 +1,24 @@
-import { Collapse, IconButton, Navbar, Typography} from "@material-tailwind/react";
-import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
-import {useState} from "react";
-import { Link } from "react-router-dom";
-
+import { Collapse, IconButton, Navbar, Typography } from "@material-tailwind/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import authService from "../../services/auth.service.js";
+import Cookies from 'js-cookie';
 export default function Navigation() {
-    const [openNav, setOpenNav] = useState(false)
+    const [openNav, setOpenNav] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await authService.logout();
+            Cookies.remove('token');
+            navigate('/');
+            console.log("Logged out successfully!");
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Logout failed. Please try again.");
+        }
+    };
 
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-3 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-8">
@@ -15,18 +29,17 @@ export default function Navigation() {
                           before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-amber-400
                           before:transition-all before:duration-300 hover:before:w-full"
             >
-                <Link to="/contact">Logout</Link>
+                <span onClick={handleLogout} className="block">Logout</span>
             </Typography>
         </ul>
-    )
+    );
 
     return (
         <Navbar className="sticky top-0 z-100 h-max max-w-full rounded-none px-6 py-3 lg:px-10 lg:py-5 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700/50 shadow-lg">
             <div className="flex items-center justify-between text-white">
                 <div className="flex items-center space-x-3">
-
                     <div className="flex items-center space-x-2 bg-amber-400/10 px-3 py-2 rounded-lg border border-amber-400/20">
-                        <Typography className="text-3xl font-black text-amber-400 tracking-tight">Header</Typography>
+                        <Typography className="text-3xl font-black text-amber-400 tracking-tight">P2P</Typography>
                         <div className="w-px h-6 bg-amber-400/30"></div>
                         <Typography className="text-sm font-semibold text-gray-200 tracking-wide">ZIMBABWE 2025</Typography>
                     </div>

@@ -11,11 +11,14 @@ import Sponsorship from "./pages/sponsor/Index.jsx";
 import SystemLayout from "./system/components/SystemLayout.jsx";
 import ExhibitorDashboard from "./system/pages/exhibitor/ExhibitorDashboard.jsx";
 import AttendantDashboard from "./system/pages/attendant/AttendantDashboard.jsx";
-import Test from "./system/pages/Test.jsx";
+import Test from "./system/pages/test/Test.jsx";
+import {ExhibitorLogin, UserLogin} from "./system/pages/auth/Login.jsx";
+import AggregatedUsers from "./system/pages/exhibitor/components/AggregatedUsers.jsx";
 
 
 
 const router = createBrowserRouter([
+    // landing pages
   {
     path: "/",
     element: <Layout />,
@@ -54,8 +57,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+    // system pages
   {
-    path: "/dashboard",
+    path: "/exhibitor-login",
+    element: <ExhibitorLogin />,
+  },
+  {
+    path: "/user-login",
+    element: <UserLogin />,
+  },
+
+  {
+    path: "/exhibitor-dashboard",
     element: <SystemLayout />,
     children: [
       {
@@ -65,7 +78,17 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/home",
+    path: "/aggregated-users",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <AggregatedUsers />,
+      },
+    ]
+  },
+  {
+    path: "/user-dashboard",
     element: <SystemLayout />,
     children: [
       {
@@ -74,17 +97,6 @@ const router = createBrowserRouter([
       },
     ]
   },
-    //test endpoint
-  {
-    path: "/test",
-    element: <SystemLayout />,
-    children: [
-      {
-        index: true,
-        element: <Test />,
-      },
-    ]
-  }
 
 ]);
 
