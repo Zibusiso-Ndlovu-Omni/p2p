@@ -11,10 +11,12 @@ import Sponsorship from "./pages/sponsor/Index.jsx";
 import SystemLayout from "./system/components/SystemLayout.jsx";
 import ExhibitorDashboard from "./system/pages/exhibitor/ExhibitorDashboard.jsx";
 import AttendantDashboard from "./system/pages/attendant/AttendantDashboard.jsx";
-import Test from "./system/pages/test/Test.jsx";
 import {ExhibitorLogin, UserLogin} from "./system/pages/auth/Login.jsx";
 import AggregatedUsers from "./system/pages/exhibitor/components/AggregatedUsers.jsx";
-
+import Register from "./system/pages/auth/Register.jsx";
+import AdminDashboard from "./system/pages/admin/AdminDashboard.jsx";
+import RegisterOrganisation from "./system/pages/admin/RegisterOrganisation.jsx";
+import RegisterExhibitor from "./system/pages/admin/RegisterExhibitor.jsx";
 
 
 const router = createBrowserRouter([
@@ -66,7 +68,11 @@ const router = createBrowserRouter([
     path: "/user-login",
     element: <UserLogin />,
   },
-
+    // user registration
+  {
+    path: "/register",
+    element: <Register />,
+  },
   {
     path: "/exhibitor-dashboard",
     element: <SystemLayout />,
@@ -97,6 +103,34 @@ const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: "/dashboard",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: "register-organisation",
+        element: <RegisterOrganisation />,
+      },
+      {
+        path: "register-exhibitor",
+        element: <RegisterExhibitor />,
+      }
+    ]
+  },
+  {
+    path: "/test",
+    element: <SystemLayout />,
+    children: [
+      {
+        index: true,
+        element: <RegisterExhibitor />,
+      },
+    ]
+  }
 
 ]);
 

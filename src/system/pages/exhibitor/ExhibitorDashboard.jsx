@@ -27,13 +27,10 @@ function ExhibitorDashboard() {
     const [showNotesInput, setShowNotesInput] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
     const [showEditNotesModal, setShowEditNotesModal] = useState(false);
     const [editingInterest, setEditingInterest] = useState(null);
-
     const [showUserDetailModal, setShowUserDetailModal] = useState(false);
     const [selectedUserInterest, setSelectedUserInterest] = useState(null);
-
     const [organisationDetails, setOrganisationDetails] = useState(null);
 
 
