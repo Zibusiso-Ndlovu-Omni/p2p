@@ -18,6 +18,8 @@ import AdminDashboard from "./system/pages/admin/AdminDashboard.jsx";
 import RegisterOrganisation from "./system/pages/admin/RegisterOrganisation.jsx";
 import RegisterExhibitor from "./system/pages/admin/RegisterExhibitor.jsx";
 import {LandingPage} from "./system/pages/auth/HomeLogin.jsx";
+import NotFound from "./system/pages/error/NotFound.jsx";
+import AccessDenied from "./system/pages/error/AccessDenied.jsx";
 
 
 const router = createBrowserRouter([
@@ -119,6 +121,14 @@ const router = createBrowserRouter([
         element: <RegisterExhibitor />,
       }
     ]
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+  {
+    path: "access-denied",
+    element: <AccessDenied />,
   }
 
 ]);
