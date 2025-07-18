@@ -3,7 +3,7 @@ import userInterestService from "../../../../services/userInterest.service.js";
 import organisationService from "../../../../services/organisation.service.js";
 import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
-import UserDetailModal from './UserDetailModal.jsx'; // Assuming UserDetailModal is in components
+import UserDetailModal from './UserDetailModal.jsx';
 import { Link } from 'react-router-dom';
 
 function AggregatedUsers() {
@@ -32,7 +32,6 @@ function AggregatedUsers() {
                     userInterestService.getInterestsByOrganisationId(exhibitorUser.organisation_id)
                 ]);
                 setOrganisationDetails(orgRes.data.data);
-                // Ensure unique users and aggregate their interests
                 const aggregatedData = {};
                 interestsRes.data.data.forEach(interest => {
                     const userId = interest.user_id;
@@ -40,13 +39,13 @@ function AggregatedUsers() {
                         aggregatedData[userId] = {
                             user: interest.user,
                             interests: [],
-                            organisation: orgRes.data.data, // Attach org details for UserDetailModal
+                            organisation: orgRes.data.data,
                         };
                     }
                     aggregatedData[userId].interests.push({
                         product: interest.product,
                         exhibitor_notes: interest.exhibitor_notes,
-                        interest_id: interest.interest_id // Keep interest_id for potential future actions
+                        interest_id: interest.interest_id
                     });
                 });
                 setAllInterests(Object.values(aggregatedData));
@@ -64,16 +63,11 @@ function AggregatedUsers() {
     }, [exhibitorUser.organisation_id]);
 
     const handleViewUserDetail = (userAggregate) => {
-        // When showing details for an aggregated user, we need to pass a structure
-        // that UserDetailModal expects. It expects a single 'interest' object with user and product.
-        // For an aggregated view, we can select the first interest or restructure.
-        // For simplicity, let's pass a structure mimicking what UserDetailModal might need,
-        // combining user details with their first interest's product, and all interests as a list.
         setSelectedUserInterest({
             user: userAggregate.user,
-            product: userAggregate.interests[0]?.product || null, // Pick one product to display as primary
-            exhibitor_notes: userAggregate.interests[0]?.exhibitor_notes || null, // Pick one note as primary
-            all_interests_details: userAggregate.interests, // Pass all interests for detailed view
+            product: userAggregate.interests[0]?.product || null,
+            exhibitor_notes: userAggregate.interests[0]?.exhibitor_notes || null,
+            all_interests_details: userAggregate.interests,
             organisation: organisationDetails
         });
         setShowUserDetailModal(true);
@@ -118,7 +112,7 @@ function AggregatedUsers() {
 
                 <div className="flex justify-center mb-12">
                     <Link
-                        to="/exhibitor-dashboard"
+                        to="/exhibitor/dashboard"
                         className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
                     >
                         ⬅️ Back to Dashboard
@@ -134,47 +128,27 @@ function AggregatedUsers() {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-4"> {/* Changed to space-y for vertical spacing */}
                         {allInterests.map(userAggregate => (
                             <div
                                 key={userAggregate.user?.user_id}
-                                className="bg-white border border-gray-200 rounded-xl shadow-lg p-7 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-green-400 cursor-pointer"
+                                className="bg-white border border-gray-200 rounded-xl shadow-md p-5 flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:border-green-400 cursor-pointer"
                                 onClick={() => handleViewUserDetail(userAggregate)}
                             >
-                                <h3 className="text-2xl font-bold text-gray-800 mb-2 leading-tight">
-                                    {userAggregate.user?.first_name} {userAggregate.user?.last_name}
-                                </h3>
-                                <p className="text-gray-600 mb-3">
-                                    <span className="font-semibold">Email:</span> {userAggregate.user?.email}
-                                </p>
-                                {userAggregate.user?.company && (
-                                    <p className="text-gray-600 mb-3">
-                                        <span className="font-semibold">Company:</span> {userAggregate.user?.company}
+                                <div className="flex-grow">
+                                    <h3 className="text-xl font-semibold text-gray-800">
+                                        {userAggregate.user?.first_name} {userAggregate.user?.last_name}
+                                    </h3>
+                                    <p className="text-gray-600 text-sm">
+                                        {userAggregate.user?.email} {userAggregate.user?.company && ` | ${userAggregate.user?.company}`}
                                     </p>
-                                )}
-                                {userAggregate.user?.phone_number && (
-                                    <p className="text-gray-600 mb-3">
-                                        <span className="font-semibold">Phone:</span> {userAggregate.user?.phone_number}
+                                    <p className="text-gray-600 text-sm mt-1">
+                                        Interested in: {userAggregate.interests.map(i => i.product?.product_name).join(', ')}
                                     </p>
-                                )}
-
-                                <h4 className="text-xl font-semibold text-gray-800 mt-6 pt-4 border-t-2 border-dashed border-gray-200">
-                                    Interested In:
-                                </h4>
-                                <ul className="mt-3 space-y-2">
-                                    {userAggregate.interests.map((interest, index) => (
-                                        <li key={index} className="bg-green-50 border-l-4 border-green-400 p-3 rounded-md shadow-sm">
-                                            <p className="text-gray-800 font-medium">
-                                                ➡️ {interest.product?.product_name}
-                                            </p>
-                                            {interest.exhibitor_notes && (
-                                                <p className="text-gray-600 italic text-sm mt-1">
-                                                    Notes: "{interest.exhibitor_notes}"
-                                                </p>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
+                                </div>
+                                <button className="ml-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                                    View Details
+                                </button>
                             </div>
                         ))}
                     </div>

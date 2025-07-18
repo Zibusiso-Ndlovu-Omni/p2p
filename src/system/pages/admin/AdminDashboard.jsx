@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Users, Building, UserCheck, Package, Plus, Activity, Eye, Pencil } from "lucide-react";
+import { Users, Building, UserCheck, Package, Plus, Activity, Eye, Trash2 } from "lucide-react";
 import organisationService from "../../../services/organisation.service.js";
 import exhibitorService from "../../../services/exhibitor.service.js";
 import userService from "../../../services/user.service.js";
 import productService from "../../../services/product.service.js";
 import {Link} from "react-router-dom";
-import Modal from './components/Modal.jsx';
 import OrganisationDetailsModal from './components/OrganisationDetailsModal';
 import ExhibitorDetailsModal from './components/ExhibitorDetailsModal';
 import UserDetailsModal from './components/UserDetailsModal';
 
+import {
+    Button,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+} from "@material-tailwind/react";
+
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('organisations');
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+    const handleOpenDialog = () => setOpenDialog(!openDialog);
 
     const [metrics, setMetrics] = useState({
         totalUsers: 0,
@@ -72,7 +82,6 @@ const AdminDashboard = () => {
         fetchMetrics();
     }, []);
 
-    // Function to fetch organisations, can be called on tab change and after modal updates
     const fetchOrganisationsData = async () => {
         setLoadingOrganisations(true);
         try {
@@ -371,13 +380,31 @@ const AdminDashboard = () => {
                                                             >
                                                                 <Eye size={18} />
                                                             </button>
-                                                            <button
-                                                                onClick={() => openOrganisationModal(org.organisation_id)} // Re-use view modal, it handles editing internally
-                                                                className="p-2 rounded-full bg-green-50 hover:bg-green-100 transition-colors duration-200 text-green-600 hover:text-green-900"
-                                                                title="Edit Organisation"
-                                                            >
-                                                                <Pencil size={18} />
+
+                                                            <button onClick={handleOpenDialog} className="p-2 rounded-full bg-red-50 hover:bg-red-100 transition-colors duration-200 text-red-600 hover:text-red-900" title="Delete Organisation">
+                                                                <Trash2 size={18} />
                                                             </button>
+                                                            <Dialog open={openDialog} handler={handleOpenDialog}>
+                                                                <DialogHeader>Delete <span className="text-red-600 mx-2"> {org.organisation_name}</span></DialogHeader>
+                                                                <DialogBody>
+                                                                    Are you sure you want to delete this organisation? This action cannot be undone.
+                                                                </DialogBody>
+                                                                <DialogFooter>
+                                                                    <Button
+                                                                        variant="text"
+                                                                        color="green"
+                                                                        onClick={handleOpenDialog}
+                                                                        className="mr-1"
+                                                                    >
+                                                                        <span>Cancel</span>
+                                                                    </Button>
+                                                                    <Button variant="gradient" color="red" onClick={async () => {
+                                                                        await organisationService.deleteOrganisation(org.organisation_id);
+                                                                        fetchOrganisationsData() }}>
+                                                                        <span>Confirm</span>
+                                                                    </Button>
+                                                                </DialogFooter>
+                                                            </Dialog>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -427,13 +454,30 @@ const AdminDashboard = () => {
                                                             >
                                                                 <Eye size={18} />
                                                             </button>
-                                                            <button
-                                                                onClick={() => openExhibitorModal(exhibitor.exhibitor_id)} // Re-use view modal, it handles editing internally
-                                                                className="p-2 rounded-full bg-green-50 hover:bg-green-100 transition-colors duration-200 text-green-600 hover:text-green-900"
-                                                                title="Edit Exhibitor"
-                                                            >
-                                                                <Pencil size={18} />
+                                                            <button onClick={handleOpenDialog} className="p-2 rounded-full bg-red-50 hover:bg-red-100 transition-colors duration-200 text-red-600 hover:text-red-900" title="Delete Organisation">
+                                                                <Trash2 size={18} />
                                                             </button>
+                                                            <Dialog open={openDialog} handler={handleOpenDialog}>
+                                                                <DialogHeader>Delete <span className="text-red-600 mx-2">{exhibitor.first_name} {exhibitor.last_name}</span></DialogHeader>
+                                                                <DialogBody>
+                                                                    Are you sure you want to delete this organisation? This action cannot be undone.
+                                                                </DialogBody>
+                                                                <DialogFooter>
+                                                                    <Button
+                                                                        variant="text"
+                                                                        color="green"
+                                                                        onClick={handleOpenDialog}
+                                                                        className="mr-1"
+                                                                    >
+                                                                        <span>Cancel</span>
+                                                                    </Button>
+                                                                    <Button variant="gradient" color="red" onClick={async () => {
+                                                                        await exhibitorService.deleteExhibitor(exhibitor.exhibitor_id);
+                                                                        fetchExhibitorsData() }}>
+                                                                        <span>Confirm</span>
+                                                                    </Button>
+                                                                </DialogFooter>
+                                                            </Dialog>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -481,13 +525,31 @@ const AdminDashboard = () => {
                                                             >
                                                                 <Eye size={18} />
                                                             </button>
-                                                            <button
-                                                                onClick={() => openUserModal(user.user_id)} // Re-use view modal, it handles editing internally
-                                                                className="p-2 rounded-full bg-green-50 hover:bg-green-100 transition-colors duration-200 text-green-600 hover:text-green-900"
-                                                                title="Edit User"
-                                                            >
-                                                                <Pencil size={18} />
+
+                                                            <button onClick={handleOpenDialog} className="p-2 rounded-full bg-red-50 hover:bg-red-100 transition-colors duration-200 text-red-600 hover:text-red-900" title="Delete Organisation">
+                                                                <Trash2 size={18} />
                                                             </button>
+                                                            <Dialog open={openDialog} handler={handleOpenDialog}>
+                                                                <DialogHeader>Delete <span className="text-red-600 mx-2">{user.first_name} {user.last_name}</span></DialogHeader>
+                                                                <DialogBody>
+                                                                    Are you sure you want to delete this organisation? This action cannot be undone.
+                                                                </DialogBody>
+                                                                <DialogFooter>
+                                                                    <Button
+                                                                        variant="text"
+                                                                        color="green"
+                                                                        onClick={handleOpenDialog}
+                                                                        className="mr-1"
+                                                                    >
+                                                                        <span>Cancel</span>
+                                                                    </Button>
+                                                                    <Button variant="gradient" color="red" onClick={async () => {
+                                                                        await userService.deleteUser(user.user_id);
+                                                                        fetchUsersData() }}>
+                                                                        <span>Confirm</span>
+                                                                    </Button>
+                                                                </DialogFooter>
+                                                            </Dialog>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -514,7 +576,6 @@ const AdminDashboard = () => {
                 onClose={closeExhibitorModal}
                 exhibitorId={selectedExhibitorId}
             />
-
             <UserDetailsModal
                 isOpen={isUserModalOpen}
                 onClose={closeUserModal}

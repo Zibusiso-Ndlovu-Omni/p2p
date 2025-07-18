@@ -17,10 +17,11 @@ import Register from "./system/pages/auth/Register.jsx";
 import AdminDashboard from "./system/pages/admin/AdminDashboard.jsx";
 import RegisterOrganisation from "./system/pages/admin/RegisterOrganisation.jsx";
 import RegisterExhibitor from "./system/pages/admin/RegisterExhibitor.jsx";
+import {LandingPage} from "./system/pages/auth/HomeLogin.jsx";
 
 
 const router = createBrowserRouter([
-    // landing pages
+    // *****************************************************************************Public Routes ****************************************************************************
   {
     path: "/",
     element: <Layout />,
@@ -59,7 +60,11 @@ const router = createBrowserRouter([
       },
     ],
   },
-    // system pages
+    // *****************************************************************************System Routes ****************************************************************************
+  {
+    path: "/auth",
+    element: <LandingPage />,
+  },
   {
     path: "/exhibitor-login",
     element: <ExhibitorLogin />,
@@ -68,27 +73,21 @@ const router = createBrowserRouter([
     path: "/user-login",
     element: <UserLogin />,
   },
-    // user registration
   {
     path: "/register",
     element: <Register />,
   },
+    // *****************************************************************************System Authenticated Routes ****************************************************************************
   {
-    path: "/exhibitor-dashboard",
+    path: "/exhibitor",
     element: <SystemLayout />,
     children: [
       {
-        index: true,
+        path: "dashboard",
         element: <ExhibitorDashboard />,
       },
-    ]
-  },
-  {
-    path: "/aggregated-users",
-    element: <SystemLayout />,
-    children: [
       {
-        index: true,
+        path: "aggregated-users",
         element: <AggregatedUsers />,
       },
     ]
@@ -119,16 +118,6 @@ const router = createBrowserRouter([
         path: "register-exhibitor",
         element: <RegisterExhibitor />,
       }
-    ]
-  },
-  {
-    path: "/test",
-    element: <SystemLayout />,
-    children: [
-      {
-        index: true,
-        element: <RegisterExhibitor />,
-      },
     ]
   }
 

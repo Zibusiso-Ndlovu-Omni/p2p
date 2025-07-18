@@ -1,9 +1,8 @@
 import React from 'react';
 
 function UserDetailModal({ userInterest, onClose }) {
-    // If no userInterest data is provided, don't render the modal
     if (!userInterest) return null;
-    const { user, product, exhibitor_notes, organisation, all_interests_details } = userInterest;
+    const { user, product, exhibitor_notes, all_interests_details } = userInterest;
 
     const interestsToDisplay = all_interests_details && all_interests_details.length > 0
         ? all_interests_details
@@ -29,12 +28,12 @@ function UserDetailModal({ userInterest, onClose }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-lg">
                         {user?.first_name && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">First Name:</strong> {user.first_name}
+                                <strong className="text-blue-700">First Name:</strong> {user?.first_name}
                             </p>
                         )}
                         {user?.last_name && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">Last Name:</strong> {user.last_name}
+                                <strong className="text-blue-700">Last Name:</strong> {user?.last_name}
                             </p>
                         )}
                         <p className="text-gray-700">
@@ -42,22 +41,27 @@ function UserDetailModal({ userInterest, onClose }) {
                         </p>
                         {user?.phone_number && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">Phone:</strong> {user.phone_number}
+                                <strong className="text-blue-700">Phone:</strong> {user?.phone_number}
                             </p>
                         )}
                         {user?.company && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">Company:</strong> {user.company}
+                                <strong className="text-blue-700">Company:</strong> {user?.company}
                             </p>
                         )}
-                        {user?.job_title && (
+                        {user?.occupation && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">Job Title:</strong> {user.job_title}
+                                <strong className="text-blue-700">Job Title:</strong> {user?.occupation}
                             </p>
                         )}
-                        {organisation?.organisation_name && (
+                        {user?.industry && (
                             <p className="text-gray-700">
-                                <strong className="text-blue-700">Organisation:</strong> {organisation.organisation_name}
+                                <strong className="text-blue-700">Industry:</strong> {user?.industry}
+                            </p>
+                        )}
+                        {user?.interests && (
+                            <p className="text-gray-700">
+                                <strong className="text-blue-700">Interests:</strong> {user?.interests}
                             </p>
                         )}
                     </div>

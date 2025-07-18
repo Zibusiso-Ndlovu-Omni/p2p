@@ -3,6 +3,7 @@ import ProductModal from './components/ProductModal.jsx';
 import QRScanner from './components/QRScanner.jsx';
 import NoteInput from './components/NoteInput.jsx';
 import UserDetailModal from './components/UserDetailModal.jsx';
+import UserSearchModal from './components/UserSearchModal.jsx';
 import productService from "../../../services/product.service.js";
 import userInterestService from "../../../services/userInterest.service.js";
 import organisationService from "../../../services/organisation.service.js";
@@ -32,6 +33,10 @@ function ExhibitorDashboard() {
     const [showUserDetailModal, setShowUserDetailModal] = useState(false);
     const [selectedUserInterest, setSelectedUserInterest] = useState(null);
     const [organisationDetails, setOrganisationDetails] = useState(null);
+
+    // New state for the user search modal
+    const [showUserSearchModal, setShowUserSearchModal] = useState(false);
+    const [selectedUserForInterest, setSelectedUserForInterest] = useState(null);
 
 
     useEffect(() => {
@@ -88,6 +93,20 @@ function ExhibitorDashboard() {
         setShowQRScanner(true);
     };
 
+    // New handler for "Add Product Interest" button
+    const handleAddInterestByEmailClick = (productId) => {
+        setCurrentProductId(productId);
+        setShowUserSearchModal(true);
+    };
+
+    const handleUserSelectedFromSearch = (user) => {
+        setSelectedUserForInterest(user);
+        setShowUserSearchModal(false); // Close search modal
+        setShowNotesInput(true); // Open notes input for the selected user
+        setScannedUserData(user); // Use scannedUserData state for consistency with NoteInput
+    };
+
+
     const handleQRScanResult = (data) => {
         if (data) {
             setError('');
@@ -110,20 +129,23 @@ function ExhibitorDashboard() {
 
     const handleNotesSubmit = async (notes) => {
         setError('');
-        if (!scannedUserData || !currentProductId) {
+        const userToRegister = scannedUserData || selectedUserForInterest;
+
+        if (!userToRegister || !currentProductId) {
             setError('Missing user data or product for interest registration.');
             return;
         }
 
         try {
             await productService.registerInterest(currentProductId, {
-                user_id: scannedUserData.user_id,
+                user_id: userToRegister.user_id,
                 exhibitor_notes: notes,
                 organisation_id: exhibitorUser.organisation_id
             });
             alert('User interest registered and notes saved! 🎉');
             await refreshProductList();
             setScannedUserData(null);
+            setSelectedUserForInterest(null);
             setCurrentProductId(null);
             setShowNotesInput(false);
         } catch (err) {
@@ -212,7 +234,7 @@ function ExhibitorDashboard() {
                         ➕ Create New Product
                     </button>
                     <Link
-                        to="/aggregated-users" // Link to the new aggregated users page
+                        to="/exhibitor/aggregated-users"
                         className="flex-1 text-center px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
                     >
                         📊 View All Interested Users
@@ -241,6 +263,14 @@ function ExhibitorDashboard() {
                                     onClick={() => handleScanUserQR(product.product_id)}
                                 >
                                     ✨ Scan User QR for this Product
+                                </button>
+
+                                {/* New "Add Product Interest" button */}
+                                <button
+                                    className="w-full mt-4 px-6 py-3 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 transition duration-300 ease-in-out transform hover:scale-105"
+                                    onClick={() => handleAddInterestByEmailClick(product.product_id)}
+                                >
+                                    ➕ Add Product Interest (Email)
                                 </button>
 
                                 <h4 className="text-xl font-semibold text-gray-800 mt-8 pt-5 border-t-2 border-dashed border-gray-200">Interested Users: ({product?.productInterests?.length || 0})</h4>
@@ -308,13 +338,33 @@ function ExhibitorDashboard() {
                     </div>
                 )}
 
-                {showNotesInput && scannedUserData && (
+                {/* New User Search Modal */}
+                {showUserSearchModal && (
+                    <UserSearchModal
+                        productId={currentProductId}
+                        onSelectUser={handleUserSelectedFromSearch}
+                        onClose={() => { setShowUserSearchModal(false); setCurrentProductId(null); }}
+                        organisationId={exhibitorUser.organisation_id}
+                    />
+                )}
+
+                {showNotesInput && (scannedUserData || selectedUserForInterest) && ( // Ensure one of them is present
                     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
                         <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg text-center transform scale-100 animate-fade-in-up">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-4">Scanned User: <span className="text-purple-600">{scannedUserData?.first_name} {scannedUserData?.last_name}</span> (<span className="text-gray-600">{scannedUserData?.email}</span>)</h3>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                                Add Notes for: <span className="text-purple-600">
+                                    {(scannedUserData || selectedUserForInterest)?.first_name} {(scannedUserData || selectedUserForInterest)?.last_name}
+                                </span>
+                                (<span className="text-gray-600">{(scannedUserData || selectedUserForInterest)?.email}</span>)
+                            </h3>
                             <NoteInput onSubmit={handleNotesSubmit} initialNotes={''} />
                             <button
-                                onClick={() => { setShowNotesInput(false); setScannedUserData(null); setCurrentProductId(null); }}
+                                onClick={() => {
+                                    setShowNotesInput(false);
+                                    setScannedUserData(null);
+                                    setSelectedUserForInterest(null);
+                                    setCurrentProductId(null);
+                                }}
                                 className="mt-6 px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out"
                             >
                                 Cancel

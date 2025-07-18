@@ -20,7 +20,7 @@ const OrganisationDetailsModal = ({ isOpen, onClose, organisationId }) => {
                 const res = await organisationService.getOrganisationById(organisationId);
                 if (res.status === 200) {
                     setOrganisation(res.data.data);
-                    setFormData(res.data.data); // Initialize form data with fetched data
+                    setFormData(res.data.data);
                 } else {
                     setError('Failed to load organisation details.');
                     console.error("Failed to load organisation:", res);
@@ -98,6 +98,17 @@ const OrganisationDetailsModal = ({ isOpen, onClose, organisationId }) => {
                                 />
                             </div>
                             <div>
+                                <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                                <input
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    value={formData.description || ''}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                />
+                            </div>
+                            <div>
                                 <label htmlFor="contact_email" className="block text-sm font-medium text-gray-700">Contact Email</label>
                                 <input
                                     type="email"
@@ -121,9 +132,20 @@ const OrganisationDetailsModal = ({ isOpen, onClose, organisationId }) => {
                                 />
                             </div>
                             <div>
+                                <label htmlFor="industry" className="block text-sm font-medium text-gray-700">Industry</label>
+                                <input
+                                    type="text"
+                                    name="industry"
+                                    id="industry"
+                                    value={formData.industry || ''}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                                />
+                            </div>
+                            <div>
                                 <label htmlFor="website" className="block text-sm font-medium text-gray-700">Website</label>
                                 <input
-                                    type="url"
+                                    type="text"
                                     name="website"
                                     id="website"
                                     value={formData.website || ''}
@@ -149,10 +171,11 @@ const OrganisationDetailsModal = ({ isOpen, onClose, organisationId }) => {
                         </form>
                     ) : (
                         <div className="text-gray-700">
-                            <p><strong className="font-semibold">ID:</strong> {organisation.organisation_id}</p>
                             <p><strong className="font-semibold">Name:</strong> {organisation.organisation_name}</p>
+                            <p><strong className="font-semibold">Description:</strong> {organisation.description || 'N/A'}</p>
                             <p><strong className="font-semibold">Email:</strong> {organisation.contact_email}</p>
                             <p><strong className="font-semibold">Phone:</strong> {organisation.phone_number || 'N/A'}</p>
+                            <p><strong className="font-semibold">Industry:</strong> {organisation.industry || 'N/A'}</p>
                             <p><strong className="font-semibold">Website:</strong> {organisation.website || 'N/A'}</p>
                             <div className="flex justify-end mt-6">
                                 <button

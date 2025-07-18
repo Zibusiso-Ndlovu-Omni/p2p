@@ -17,6 +17,10 @@ class ExhibitorService {
         return api.put(`exhibitor/${id}`, data);
     }
 
+    changePassword(id, data) {
+        return api.put(`exhibitor/change-password/${id}`, data);
+    }
+
     deleteExhibitor(id) {
         return api.delete(`exhibitor/${id}`);
     }

@@ -57,7 +57,6 @@ const RegisterExhibitor = () => {
         last_name: "",
         email: "",
         phone_number: "",
-        password: "",
         is_active: true,
     });
     const [organisations, setOrganisations] = useState([]);
@@ -112,7 +111,7 @@ const RegisterExhibitor = () => {
         setIsSubmitting(true);
         closeModal();
 
-        if (!form.organisation_id || !form.first_name || !form.last_name || !form.email || !form.phone_number || !form.password) {
+        if (!form.organisation_id || !form.first_name || !form.last_name || !form.email || !form.phone_number) {
             setError("Please fill in all required fields.");
             showMessage("Please fill in all required fields.", "error");
             setIsSubmitting(false);
@@ -132,7 +131,6 @@ const RegisterExhibitor = () => {
                     last_name: "",
                     email: "",
                     phone_number: "",
-                    password: "",
                     is_active: true,
                 });
                 setTimeout(() => {
@@ -153,46 +151,7 @@ const RegisterExhibitor = () => {
         }
     };
 
-    const InputField = ({ icon: Icon, label, ...props }) => (
-        <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-700">
-                {label}
-            </label>
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Icon className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                    {...props}
-                    className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 placeholder-gray-400 text-gray-900 bg-white hover:border-gray-400"
-                />
-            </div>
-        </div>
-    );
 
-    const SelectField = ({ icon: Icon, label, children, ...props }) => (
-        <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-700">
-                {label}
-            </label>
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Icon className="h-5 w-5 text-gray-400" />
-                </div>
-                <select
-                    {...props}
-                    className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-900 bg-white hover:border-gray-400 appearance-none"
-                >
-                    {children}
-                </select>
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <div className="min-h-screen bg-gray-200 p-4">
@@ -314,19 +273,6 @@ const RegisterExhibitor = () => {
                             />
                         </div>
 
-                        {/* Password Field */}
-                        <InputField
-                            icon={Lock}
-                            label="Password"
-                            name="password"
-                            type="password"
-                            id="password"
-                            required
-                            placeholder="Create a secure password"
-                            value={form.password}
-                            onChange={handleChange}
-                        />
-
                         {/* Active Status */}
                         <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-2xl">
                             <input
@@ -379,5 +325,46 @@ const RegisterExhibitor = () => {
         </div>
     );
 };
+
+const InputField = ({ icon: Icon, label, ...props }) => (
+    <div className="space-y-2">
+        <label htmlFor={props.id} className="block text-sm font-semibold text-gray-700">
+            {label}
+        </label>
+        <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Icon className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+                {...props}
+                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 placeholder-gray-400 text-gray-900 bg-white hover:border-gray-400"
+            />
+        </div>
+    </div>
+);
+
+const SelectField = ({ icon: Icon, label, children, ...props }) => (
+    <div className="space-y-2">
+        <label htmlFor={props.id} className="block text-sm font-semibold text-gray-700">
+            {label}
+        </label>
+        <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Icon className="h-5 w-5 text-gray-400" />
+            </div>
+            <select
+                {...props}
+                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-900 bg-white hover:border-gray-400 appearance-none"
+            >
+                {children}
+            </select>
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+);
 
 export default RegisterExhibitor;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import userService from '../../../../services/user.service.js';
+import { baseImageUrl } from '../../../../api/api.js';
 
 const UserDetailsModal = ({ isOpen, onClose, userId }) => {
     const [user, setUser] = useState(null);
@@ -19,8 +20,8 @@ const UserDetailsModal = ({ isOpen, onClose, userId }) => {
             try {
                 const res = await userService.getUserById(userId);
                 if (res.status === 200) {
-                    setUser(res.data.data);
-                    setFormData(res.data.data); // Initialize form data with fetched data
+                    setUser(res.data);
+                    setFormData(res.data);
                 } else {
                     setError('Failed to load user details.');
                     console.error("Failed to load user:", res);
@@ -61,7 +62,6 @@ const UserDetailsModal = ({ isOpen, onClose, userId }) => {
                 setUser(res.data.data);
                 setIsEditing(false);
                 setMessage('User updated successfully!');
-                // Optionally, trigger a re-fetch in the parent AdminDashboard
             } else {
                 setError('Failed to update user.');
                 console.error("Failed to update user:", res);
@@ -143,7 +143,6 @@ const UserDetailsModal = ({ isOpen, onClose, userId }) => {
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
                                 />
                             </div>
-                            {/* Add other editable fields for user here */}
                             <div className="flex justify-end space-x-3 mt-6">
                                 <button
                                     type="button"
@@ -162,19 +161,21 @@ const UserDetailsModal = ({ isOpen, onClose, userId }) => {
                         </form>
                     ) : (
                         <div className="text-gray-700">
-                            <p><strong className="font-semibold">ID:</strong> {user.user_id}</p>
+                            <img
+                                src={`${baseImageUrl}/${user.qr_code_path}`}
+                                alt="User QR Code"
+                                className="w-40 h-40 mx-auto border border-gray-300 rounded p-2"
+                            />
                             <p><strong className="font-semibold">Full Name:</strong> {user.first_name} {user.last_name}</p>
                             <p><strong className="font-semibold">Company:</strong> {user.company || 'N/A'}</p>
                             <p><strong className="font-semibold">Email:</strong> {user.email}</p>
                             <p><strong className="font-semibold">Phone:</strong> {user.phone_number || 'N/A'}</p>
-                            {/* Display other user details here */}
+                            <p><strong className="font-semibold">Industry:</strong> {user.industry || 'N/A'}</p>
+                            <p><strong className="font-semibold">Interests:</strong> {user.interests || 'N/A'}</p>
+                            <p><strong className="font-semibold">Occupation:</strong> {user.occupation || 'N/A'}</p>
+                            <p><strong className="font-semibold">Company:</strong> {user.company || 'N/A'}</p>
                             <div className="flex justify-end mt-6">
-                                <button
-                                    onClick={() => setIsEditing(true)}
-                                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                                >
-                                    Edit
-                                </button>
+
                             </div>
                         </div>
                     )}
