@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userService from "../../../services/user.service.js"; // Assuming this path is correct
+import userService from "../../../services/user.service.js";
 
 export default function UserRegister() {
     const [firstName, setFirstName] = useState('');
@@ -18,8 +18,8 @@ export default function UserRegister() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear any previous errors
-        setSuccessMessage(''); // Clear any previous success messages
+        setError('');
+        setSuccessMessage('');
 
         try {
             const userData = {

@@ -20,6 +20,7 @@ import RegisterExhibitor from "./system/pages/admin/RegisterExhibitor.jsx";
 import {LandingPage} from "./system/pages/auth/HomeLogin.jsx";
 import NotFound from "./system/pages/error/NotFound.jsx";
 import AccessDenied from "./system/pages/error/AccessDenied.jsx";
+import ProtectedRoute from "./system/components/ProtectedRoute.jsx";
 
 
 const router = createBrowserRouter([
@@ -96,7 +97,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/user-dashboard",
-    element: <SystemLayout />,
+    element: (
+        <ProtectedRoute allowedRoles={[1]}>
+            <SystemLayout />
+        </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -106,7 +111,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <SystemLayout />,
+    element: (
+        <ProtectedRoute allowedRoles={[2]}>
+            <SystemLayout />
+        </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
