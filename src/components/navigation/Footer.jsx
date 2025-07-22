@@ -17,7 +17,7 @@ export default function Footer() {
                             <div className="text-gray-400">
                                 <p className="flex items-center gap-2 mb-2">
                                     <CalendarDaysIcon className="h-4 w-4" />
-                                    September 2025
+                                    4 & 5 November 2025
                                 </p>
                                 <p className="flex items-center gap-2">
                                     <MapPinIcon className="h-4 w-4" />
@@ -64,9 +64,10 @@ export default function Footer() {
                                 Contact Info
                             </Typography>
                             <div className="text-gray-400 space-y-2">
-                                <p>General Info: info@p2pzimbabwe.com</p>
-                                <p>Exhibitors: exhibitors@p2pzimbabwe.com</p>
-                                <p>Sponsors: sponsors@p2pzimbabwe.com</p>
+                                <p>Partner Info: partner@p2pzimbabwe.com</p>
+                                <p>Exhibitors: exhibit@p2pzimbabwe.com</p>
+                                <p>Sponsors: sponsor@p2pzimbabwe.com</p>
+                                <p>Support: support@p2pzimbabwe.com</p>
                                 <p>Phone: +263 XXX XXXX</p>
                             </div>
                         </div>

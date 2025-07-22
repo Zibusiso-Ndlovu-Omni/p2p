@@ -49,7 +49,7 @@ export function UserLogin() {
             </div>
 
             <div className="relative z-10 bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
-                <h1 className="text-4xl font-bold text-center text-white mb-8">User Login</h1>
+                <h1 className="text-4xl font-bold text-center text-white mb-8">Attendant Login</h1>
                 <p className="text-center text-gray-300 mb-6">Welcome back! Please log in to your account.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">

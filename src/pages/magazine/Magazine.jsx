@@ -210,49 +210,49 @@ export default function Magazine() {
                 </div>
 
                 {/* Magazine Preview & Download */}
-                <div className="mb-16">
-                    <Card className="bg-gray-900 border border-gray-700">
-                        <CardBody className="p-8">
-                            <div className="grid md:grid-cols-2 gap-8 items-center">
-                                <div>
-                                    <Typography variant="h3" className="text-white mb-4">
-                                        View Previous Edition
-                                    </Typography>
-                                    <Typography className="text-gray-300 mb-6">
-                                        Get a preview of our publication quality and see how your advertisement
-                                        will look alongside premium content about logistics, trade, and industry insights.
-                                    </Typography>
-                                    <div className="flex flex-col sm:flex-row gap-4">
-                                        <Button
-                                            size="lg"
-                                            className="bg-amber-400 text-gray-900 hover:bg-amber-500 flex items-center gap-2"
-                                        >
-                                            <DocumentArrowDownIcon className="h-5 w-5" />
-                                            Download PDF
-                                        </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="outlined"
-                                            className="border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 flex items-center gap-2"
-                                        >
-                                            <NewspaperIcon className="h-5 w-5" />
-                                            View Online
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className="bg-gray-800 rounded-lg p-8 text-center border border-gray-600">
-                                    <NewspaperIcon className="h-24 w-24 text-amber-400 mx-auto mb-4" />
-                                    <Typography className="text-gray-300">
-                                        P2P Journal 2024 Edition
-                                    </Typography>
-                                    <Typography variant="small" className="text-gray-500">
-                                        48 pages • Full Color • Premium Print
-                                    </Typography>
-                                </div>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </div>
+                {/*<div className="mb-16">*/}
+                {/*    <Card className="bg-gray-900 border border-gray-700">*/}
+                {/*        <CardBody className="p-8">*/}
+                {/*            <div className="grid md:grid-cols-2 gap-8 items-center">*/}
+                {/*                <div>*/}
+                {/*                    <Typography variant="h3" className="text-white mb-4">*/}
+                {/*                        View Previous Edition*/}
+                {/*                    </Typography>*/}
+                {/*                    <Typography className="text-gray-300 mb-6">*/}
+                {/*                        Get a preview of our publication quality and see how your advertisement*/}
+                {/*                        will look alongside premium content about logistics, trade, and industry insights.*/}
+                {/*                    </Typography>*/}
+                {/*                    <div className="flex flex-col sm:flex-row gap-4">*/}
+                {/*                        <Button*/}
+                {/*                            size="lg"*/}
+                {/*                            className="bg-amber-400 text-gray-900 hover:bg-amber-500 flex items-center gap-2"*/}
+                {/*                        >*/}
+                {/*                            <DocumentArrowDownIcon className="h-5 w-5" />*/}
+                {/*                            Download PDF*/}
+                {/*                        </Button>*/}
+                {/*                        <Button*/}
+                {/*                            size="lg"*/}
+                {/*                            variant="outlined"*/}
+                {/*                            className="border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 flex items-center gap-2"*/}
+                {/*                        >*/}
+                {/*                            <NewspaperIcon className="h-5 w-5" />*/}
+                {/*                            View Online*/}
+                {/*                        </Button>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*                <div className="bg-gray-800 rounded-lg p-8 text-center border border-gray-600">*/}
+                {/*                    <NewspaperIcon className="h-24 w-24 text-amber-400 mx-auto mb-4" />*/}
+                {/*                    <Typography className="text-gray-300">*/}
+                {/*                        P2P Journal 2024 Edition*/}
+                {/*                    </Typography>*/}
+                {/*                    <Typography variant="small" className="text-gray-500">*/}
+                {/*                        48 pages • Full Color • Premium Print*/}
+                {/*                    </Typography>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </CardBody>*/}
+                {/*    </Card>*/}
+                {/*</div>*/}
 
                 {/* CTA Section */}
                 <div className="text-center">
@@ -273,14 +273,6 @@ export default function Magazine() {
                                 >
                                     <PaintBrushIcon className="h-5 w-5" />
                                     Book Ad Space
-                                </Button>
-                                <Button
-                                    size="lg"
-                                    variant="outlined"
-                                    className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white flex items-center gap-2"
-                                >
-                                    <EnvelopeIcon className="h-5 w-5" />
-                                    Contact Us
                                 </Button>
                             </div>
                         </CardBody>

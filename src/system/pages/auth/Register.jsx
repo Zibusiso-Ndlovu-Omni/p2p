@@ -59,7 +59,7 @@ export default function UserRegister() {
 
             {/* Main registration card container */}
             <div className="relative z-10 bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 hover:scale-100">
-                <h1 className="text-4xl font-bold text-center text-white mb-8">User Registration</h1>
+                <h1 className="text-4xl font-bold text-center text-white mb-8">Attendant Registration</h1>
                 <p className="text-center text-gray-300 mb-6">Create your account to get started!</p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">

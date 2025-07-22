@@ -29,7 +29,7 @@ function NoteInput({ onSubmit, initialNotes = '', onClose }) {
                 <label htmlFor="notes-textarea" className="sr-only">Notes:</label>
                 <textarea
                     id="notes-textarea"
-                    className="w-full p-4 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200 ease-in-out resize-y min-h-[120px]"
+                    className="w-full p-4 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:border-transparent transition duration-200 ease-in-out resize-y min-h-[120px]"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows="6"
@@ -38,14 +38,14 @@ function NoteInput({ onSubmit, initialNotes = '', onClose }) {
                 <div className="flex justify-end gap-3 mt-5">
                     <button
                         type="submit"
-                        className="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition duration-200 ease-in-out"
+                        className="px-6 py-2 bg-gray-800 text-white font-medium rounded-md hover:bg-gray-900 transition duration-200 ease-in-out"
                     >
                         Save Notes
                     </button>
                     <button
                         type="button"
                         onClick={handleClearNotes}
-                        className="px-6 py-2 bg-yellow-500 text-white font-medium rounded-md hover:bg-yellow-600 transition duration-200 ease-in-out"
+                        className="px-6 py-2 bg-amber-500 text-gray-900 font-medium rounded-md hover:bg-amber-600 transition duration-200 ease-in-out"
                     >
                         Clear Notes
                     </button>

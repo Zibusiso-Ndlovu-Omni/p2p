@@ -28,9 +28,6 @@ export default function Navigation() {
     const exhibitorId = decoded.exhibitor_id;
     const userId = decoded.user_id;
 
-    console.log("Exhibitor ID:", exhibitorId);
-    console.log("User ID:", userId);
-
     const handleLogout = async () => {
         try {
             await authService.logout();

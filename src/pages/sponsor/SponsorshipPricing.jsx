@@ -145,9 +145,6 @@ function SponsorshipPricing() {
                                 Ready to maximize your brand visibility?
                             </Typography>
                             <div className="flex flex-wrap justify-center gap-4">
-                                <Button size="lg" className="bg-amber-400 text-gray-900 hover:bg-amber-500">
-                                    Request Sponsor Pack
-                                </Button>
                                 <Button
                                     size="lg"
                                     variant="outlined"

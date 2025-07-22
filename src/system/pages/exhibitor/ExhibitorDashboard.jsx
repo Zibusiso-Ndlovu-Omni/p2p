@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 function ExhibitorDashboard() {
     const token = Cookies.get('token');
-    const decoded = jwtDecode(token);
+    const decoded = token ? jwtDecode(token) : {};
 
     const exhibitorUser = useMemo(() => ({
         id: decoded.exhibitor_id,
@@ -34,13 +34,17 @@ function ExhibitorDashboard() {
     const [selectedUserInterest, setSelectedUserInterest] = useState(null);
     const [organisationDetails, setOrganisationDetails] = useState(null);
 
-    // New state for the user search modal
     const [showUserSearchModal, setShowUserSearchModal] = useState(false);
     const [selectedUserForInterest, setSelectedUserForInterest] = useState(null);
 
 
     useEffect(() => {
         const fetchExhibitorData = async () => {
+            if (!exhibitorUser.organisation_id) {
+                setLoading(false);
+                setError('Organisation ID not found.');
+                return;
+            }
             try {
                 const [orgRes, productRes] = await Promise.all([
                     organisationService.getOrganisationById(exhibitorUser.organisation_id),
@@ -50,26 +54,22 @@ function ExhibitorDashboard() {
                 setProducts(productRes.data.data);
             } catch (err) {
                 console.error('Error fetching exhibitor data:', err);
-                setError(err.response?.data?.message || 'Failed to load dashboard data.');
+                setError(err.response?.data?.message || 'Failed to load dashboard data. Please try again.');
             } finally {
                 setLoading(false);
             }
         };
-        if (exhibitorUser.organisation_id) {
-            fetchExhibitorData();
-        }
+        fetchExhibitorData();
     }, [exhibitorUser.organisation_id]);
 
     const refreshProductList = async () => {
         try {
-            setLoading(true);
             const res = await productService.getProductsByOrganisationId(exhibitorUser.organisation_id);
             setProducts(res.data.data);
-            setLoading(false);
         } catch (err) {
             console.error('Error refreshing product list:', err);
-            setError(err.response?.data?.message || 'Failed to refresh product list.');
-            setLoading(false);
+            setError('Failed to refresh product list.');
+            setTimeout(() => setError(''), 3000);
         }
     };
 
@@ -82,6 +82,7 @@ function ExhibitorDashboard() {
             });
             setProducts([...products, res.data.data]);
             setShowProductModal(false);
+            alert('Product created successfully! 🎉');
         } catch (err) {
             console.error('Error creating product:', err);
             setError(err.response?.data?.message || 'Failed to create product.');
@@ -93,7 +94,6 @@ function ExhibitorDashboard() {
         setShowQRScanner(true);
     };
 
-    // New handler for "Add Product Interest" button
     const handleAddInterestByEmailClick = (productId) => {
         setCurrentProductId(productId);
         setShowUserSearchModal(true);
@@ -101,9 +101,9 @@ function ExhibitorDashboard() {
 
     const handleUserSelectedFromSearch = (user) => {
         setSelectedUserForInterest(user);
-        setShowUserSearchModal(false); // Close search modal
-        setShowNotesInput(true); // Open notes input for the selected user
-        setScannedUserData(user); // Use scannedUserData state for consistency with NoteInput
+        setShowUserSearchModal(false);
+        setShowNotesInput(true);
+        setScannedUserData(user);
     };
 
 
@@ -192,10 +192,11 @@ function ExhibitorDashboard() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen bg-gray-100">
-                <div className="text-center p-8 bg-white rounded-lg shadow-lg">
-                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-                    <p className="text-xl font-semibold text-gray-700">Loading exhibitor dashboard...</p>
+            <div className="flex justify-center items-center min-h-screen bg-gray-50">
+                <div className="text-center p-10 bg-white rounded-2xl shadow-xl flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-amber-500 mb-6"></div>
+                    <p className="text-2xl font-semibold text-gray-700">Loading your exhibitor dashboard... 🚀</p>
+                    <p className="text-gray-500 mt-2">Please wait a moment while we fetch your data.</p>
                 </div>
             </div>
         );
@@ -203,13 +204,13 @@ function ExhibitorDashboard() {
 
     if (error) {
         return (
-            <div className="flex justify-center items-center h-screen bg-gray-100">
-                <div className="p-8 text-center bg-red-50 border border-red-200 text-red-600 rounded-lg shadow-md max-w-lg mx-auto">
-                    <h3 className="text-2xl font-bold mb-3">Error! 😟</h3>
-                    <p className="text-lg">{error}</p>
+            <div className="flex justify-center items-center min-h-screen bg-red-50">
+                <div className="p-10 text-center bg-white border-2 border-red-300 text-red-700 rounded-2xl shadow-xl max-w-lg mx-auto">
+                    <h3 className="text-3xl font-bold mb-4">Oops! Something went wrong</h3>
+                    <p className="text-lg mb-6">{error}</p>
                     <button
                         onClick={() => window.location.reload()}
-                        className="mt-6 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out"
+                        className="px-8 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105"
                     >
                         Try Again
                     </button>
@@ -219,89 +220,96 @@ function ExhibitorDashboard() {
     }
 
     return (
-        <div className="font-sans min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl p-8 md:p-10">
-                <h1 className="text-5xl font-extrabold text-gray-900 text-center mb-4 leading-tight">Exhibitor Dashboard ✨</h1>
-                <p className="text-lg text-gray-700 text-center mb-10">
-                    Welcome, <strong className="text-blue-600">{decoded?.first_name} {decoded?.last_name}</strong>! You are managing products for <strong className="text-indigo-700">{organisationDetails?.organisation_name || `Organisation ID: ${exhibitorUser.organisation_id}`}</strong>.
+        <div className="font-sans min-h-screen bg-gradient-to-br from-amber-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
+                <h1 className="text-5xl font-extrabold text-gray-900 text-center mb-5 leading-tight tracking-tight">
+                    Exhibitor Dashboard
+                </h1>
+                <p className="text-xl text-gray-700 text-center mb-12 max-w-2xl mx-auto">
+                    Welcome, <strong className="text-amber-600">{decoded?.first_name} {decoded?.last_name}</strong>! You are managing products for <strong className="text-indigo-700">{organisationDetails?.organisation_name || `Organisation ID: ${exhibitorUser.organisation_id}`}</strong>.
                 </p>
 
-                <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
                     <button
-                        className="flex-1 px-8 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
+                        className="flex-1 px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 text-xl tracking-wide"
                         onClick={() => setShowProductModal(true)}
                     >
-                        ➕ Create New Product
+                        Create New Product
                     </button>
                     <Link
                         to="/exhibitor/aggregated-users"
-                        className="flex-1 text-center px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
+                        className="flex-1 text-center px-10 py-4 bg-gradient-to-r from-gray-700 to-gray-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 text-xl tracking-wide"
                     >
-                        📊 View All Interested Users
+                        View All Interested Attendants
                     </Link>
                 </div>
 
-                <hr className="my-12 border-t-4 border-gray-200 rounded-full" />
+                <hr className="my-16 border-t-6 border-amber-200 rounded-full opacity-70" />
 
-                <h2 className="text-4xl font-bold text-gray-900 text-center mb-10">Your Products 📦</h2>
+                <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">Your Products</h2>
                 {products.length === 0 ? (
-                    <div className="text-center p-8 bg-blue-50 border-2 border-blue-200 rounded-lg shadow-inner">
-                        <p className="text-xl text-blue-700 italic">
-                            You haven't created any products yet. Click "Create New Product" to add your first one!
+                    <div className="text-center p-12 bg-amber-50 border-2 border-amber-200 rounded-2xl shadow-inner max-w-xl mx-auto">
+                        <p className="text-2xl text-amber-700 italic font-medium">
+                            It looks like you haven't created any products yet.
+                        </p>
+                        <p className="text-lg text-amber-600 mt-4">
+                            Click the "Create New Product" button above to add your first offering!
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {products.map(product => (
-                            <div key={product?.product_id} className="bg-white border border-gray-200 rounded-xl shadow-lg p-7 flex flex-col transition-all duration-300 hover:shadow-2xl hover:border-blue-400">
+                            <div key={product?.product_id} className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8 flex flex-col transition-all duration-300 hover:shadow-xl hover:border-amber-300">
                                 <div className="flex-grow">
-                                    <h3 className="text-2xl font-bold text-gray-800 mb-3 leading-tight">{product?.product_name}</h3>
-                                    <p className="text-gray-700 text-base leading-relaxed mb-5">{product?.description}</p>
+                                    <h3 className="text-2xl font-extrabold text-gray-700 mb-4 leading-tight">{product?.product_name}</h3>
+                                    <p className="text-gray-700 text-base leading-relaxed mb-6">{product?.description}</p>
                                 </div>
-                                <button
-                                    className="w-full mt-4 px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
-                                    onClick={() => handleScanUserQR(product.product_id)}
-                                >
-                                    ✨ Scan User QR for this Product
-                                </button>
+                                <div className="space-y-4 pt-6 border-t border-gray-100">
+                                    <button
+                                        className="w-full px-8 py-3 bg-amber-500 text-black font-semibold rounded-lg shadow-md hover:bg-amber-600 transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 text-lg"
+                                        onClick={() => handleScanUserQR(product.product_id)}
+                                    >
+                                        Scan User QR
+                                    </button>
+                                    <button
+                                        className="w-full px-8 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-900 transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2 text-lg"
+                                        onClick={() => handleAddInterestByEmailClick(product.product_id)}
+                                    >
+                                        Add by Email
+                                    </button>
+                                </div>
 
-                                {/* New "Add Product Interest" button */}
-                                <button
-                                    className="w-full mt-4 px-6 py-3 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 transition duration-300 ease-in-out transform hover:scale-105"
-                                    onClick={() => handleAddInterestByEmailClick(product.product_id)}
-                                >
-                                    ➕ Add Product Interest (Email)
-                                </button>
-
-                                <h4 className="text-xl font-semibold text-gray-800 mt-8 pt-5 border-t-2 border-dashed border-gray-200">Interested Users: ({product?.productInterests?.length || 0})</h4>
+                                <h4 className="text-xl font-bold text-gray-900 mt-8 pt-6 border-t-2 border-dashed border-gray-100">
+                                    Interested Users ({product?.productInterests?.length || 0})
+                                </h4>
                                 {product?.productInterests && product?.productInterests.length > 0 ? (
-                                    <ul className="mt-4 space-y-4">
+                                    <ul className="mt-5 space-y-4">
                                         {product.productInterests.map(interest => (
                                             <li
                                                 key={interest.interest_id}
-                                                className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg cursor-pointer hover:bg-blue-100 transition duration-200 ease-in-out shadow-sm"
+                                                className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg cursor-pointer hover:bg-amber-100 transition duration-200 ease-in-out shadow-sm flex flex-col gap-1"
                                                 onClick={() => handleViewUserDetail(interest)}
                                             >
-                                                <p className="text-gray-900 font-medium text-lg leading-snug">
-                                                    👤 {interest.user?.first_name} {interest.user?.last_name}
-                                                    {interest.user?.company && <span className="text-blue-700 ml-2 text-sm">({interest.user?.company})</span>}
+                                                <p className="text-gray-900 font-bold text-lg leading-snug flex items-center">
+                                                    <span className="mr-2 text-amber-500">👤</span> {interest.user?.first_name} {interest.user?.last_name}
+                                                    {interest.user?.company && <span className="text-amber-700 ml-3 text-sm font-medium">({interest.user?.company})</span>}
                                                 </p>
                                                 {interest.exhibitor_notes ? (
-                                                    <p className="text-gray-600 italic text-sm mt-2">
+                                                    <p className="text-gray-600 italic text-sm mt-1 leading-snug">
                                                         " {interest?.exhibitor_notes} " {' '}
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleEditNotesClick(interest); }}
-                                                            className="text-purple-600 hover:text-purple-800 font-semibold text-xs ml-2 hover:underline"
+                                                            className="text-purple-600 hover:text-purple-800 font-semibold text-xs ml-2 hover:underline focus:outline-none"
                                                         >
                                                             ✏️ Edit
                                                         </button>
                                                     </p>
                                                 ) : (
-                                                    <p className="text-gray-500 italic text-sm mt-2">
+                                                    <p className="text-gray-500 italic text-sm mt-1">
                                                         No notes yet. {' '}
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleEditNotesClick(interest); }}
-                                                            className="text-purple-600 hover:text-purple-800 font-semibold text-xs ml-2 hover:underline"
+                                                            className="text-purple-600 hover:text-purple-800 font-semibold text-xs ml-2 hover:underline focus:outline-none"
                                                         >
                                                             ➕ Add Notes
                                                         </button>
@@ -311,25 +319,30 @@ function ExhibitorDashboard() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <p className="text-gray-500 italic mt-4 text-base">No users registered interest yet for this product.</p>
+                                    <p className="text-gray-500 italic mt-5 text-base">No users have registered interest yet for this product. Be the first to scan a QR or add manually!</p>
                                 )}
                             </div>
                         ))}
                     </div>
                 )}
 
-                {/* Modals */}
+                {/* Modals - Wrapped with consistent styling */}
+
                 {showProductModal && (
-                    <ProductModal onClose={() => setShowProductModal(false)} onSubmit={handleProductCreate} />
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-xl transform scale-95 animate-scale-up">
+                            <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">Create New Product 🛍️</h3>
+                            <ProductModal onClose={() => setShowProductModal(false)} onSubmit={handleProductCreate} />
+                        </div>
+                    </div>
                 )}
 
                 {showQRScanner && (
-                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
-                        <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg text-center transform scale-100 animate-fade-in-up">
-                            <h3 className="text-3xl font-bold text-gray-800 mb-6">Scan User QR Code 📱</h3>
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg text-center transform scale-95 animate-scale-up">
                             <QRScanner onScan={handleQRScanResult} onError={(err) => console.error(err)} />
                             <button
-                                className="mt-8 px-8 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out"
+                                className="mt-8 px-8 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105"
                                 onClick={() => setShowQRScanner(false)}
                             >
                                 Cancel Scan
@@ -338,24 +351,27 @@ function ExhibitorDashboard() {
                     </div>
                 )}
 
-                {/* New User Search Modal */}
                 {showUserSearchModal && (
-                    <UserSearchModal
-                        productId={currentProductId}
-                        onSelectUser={handleUserSelectedFromSearch}
-                        onClose={() => { setShowUserSearchModal(false); setCurrentProductId(null); }}
-                        organisationId={exhibitorUser.organisation_id}
-                    />
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-xl transform scale-95 animate-scale-up">
+                            <UserSearchModal
+                                productId={currentProductId}
+                                onSelectUser={handleUserSelectedFromSearch}
+                                onClose={() => { setShowUserSearchModal(false); setCurrentProductId(null); }}
+                                organisationId={exhibitorUser.organisation_id}
+                            />
+                        </div>
+                    </div>
                 )}
 
-                {showNotesInput && (scannedUserData || selectedUserForInterest) && ( // Ensure one of them is present
-                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
-                        <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg text-center transform scale-100 animate-fade-in-up">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                {showNotesInput && (scannedUserData || selectedUserForInterest) && (
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg text-center transform scale-95 animate-scale-up">
+                            <h3 className="text-3xl font-bold text-gray-800 mb-5">
                                 Add Notes for: <span className="text-purple-600">
                                     {(scannedUserData || selectedUserForInterest)?.first_name} {(scannedUserData || selectedUserForInterest)?.last_name}
                                 </span>
-                                (<span className="text-gray-600">{(scannedUserData || selectedUserForInterest)?.email}</span>)
+                                <span className="block text-xl text-gray-600 font-normal mt-1">({(scannedUserData || selectedUserForInterest)?.email})</span>
                             </h3>
                             <NoteInput onSubmit={handleNotesSubmit} initialNotes={''} />
                             <button
@@ -365,7 +381,7 @@ function ExhibitorDashboard() {
                                     setSelectedUserForInterest(null);
                                     setCurrentProductId(null);
                                 }}
-                                className="mt-6 px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out"
+                                className="mt-8 px-8 py-3 bg-gray-900 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
                             >
                                 Cancel
                             </button>
@@ -374,16 +390,19 @@ function ExhibitorDashboard() {
                 )}
 
                 {showEditNotesModal && editingInterest && (
-                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
-                        <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg text-center transform scale-100 animate-fade-in-up">
-                            <h3 className="text-2xl font-bold text-gray-800 mb-4">Edit Notes for <span className="text-purple-600">{editingInterest.user?.first_name} {editingInterest.user?.last_name}</span> on <span className="text-blue-600">{editingInterest.product?.product_name}</span></h3>
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg text-center transform scale-95 animate-scale-up">
+                            <h3 className="text-3xl font-bold text-gray-800 mb-5">Edit Notes for
+                                <span className="text-purple-600 block mt-2">{editingInterest.user?.first_name} {editingInterest.user?.last_name}</span>
+                                <span className="text-amber-600 block text-xl mt-1">on {editingInterest.product?.product_name}</span>
+                            </h3>
                             <NoteInput
                                 onSubmit={handleUpdateNotes}
                                 initialNotes={editingInterest.exhibitor_notes || ''}
                             />
                             <button
                                 onClick={() => { setShowEditNotesModal(false); setEditingInterest(null); }}
-                                className="mt-6 px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out"
+                                className="mt-8 px-8 py-3 bg-gray-900 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
                             >
                                 Cancel
                             </button>
@@ -392,10 +411,14 @@ function ExhibitorDashboard() {
                 )}
 
                 {showUserDetailModal && selectedUserInterest && (
-                    <UserDetailModal
-                        userInterest={selectedUserInterest}
-                        onClose={() => { setShowUserDetailModal(false); setSelectedUserInterest(null); }}
-                    />
+                    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4 animate-fade-in">
+                        <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-2xl transform scale-95 animate-scale-up">
+                            <UserDetailModal
+                                userInterest={selectedUserInterest}
+                                onClose={() => { setShowUserDetailModal(false); setSelectedUserInterest(null); }}
+                            />
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
