@@ -23,13 +23,6 @@ function QuickActions() {
                                 <Typography className="text-white text-center mb-4">
                                     Explore our comprehensive 2-day program
                                 </Typography>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    className="border-amber-400 text-amber-400 hover:bg-amber-500 hover:text-gray-900 shadow-md cursor-pointer"
-                                >
-                                    View Program
-                                </Button>
                             </CardBody>
                         </Card>
 
@@ -42,13 +35,6 @@ function QuickActions() {
                             </CardHeader>
                             <CardBody className="pt-0 my-4">
                                 <Typography className="text-gray-300 text-center mb-4">Recognize excellence in logistics</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    className="border-amber-300 text-amber-300 hover:bg-amber-500 hover:text-gray-900 shadow-md cursor-pointer"
-                                >
-                                    Nominate Now
-                                </Button>
                             </CardBody>
                         </Card>
 
@@ -61,13 +47,6 @@ function QuickActions() {
                             </CardHeader>
                             <CardBody className="pt-0 my-4">
                                 <Typography className="text-gray-300 text-center mb-4">Get the official P2P Journal</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    className="border-amber-400 text-amber-400 hover:bg-amber-500 hover:text-gray-900 shadow-md cursor-pointer"
-                                >
-                                    Download PDF
-                                </Button>
                             </CardBody>
                         </Card>
 
@@ -80,13 +59,6 @@ function QuickActions() {
                             </CardHeader>
                             <CardBody className="pt-0 my-4">
                                 <Typography className="text-gray-300 text-center mb-4">Free expo access for trade visitors</Typography>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    className="border-amber-400 text-amber-400 hover:bg-amber-500 hover:text-gray-900 shadow-md cursor-pointer"
-                                >
-                                    Register Now
-                                </Button>
                             </CardBody>
                         </Card>
                     </div>
