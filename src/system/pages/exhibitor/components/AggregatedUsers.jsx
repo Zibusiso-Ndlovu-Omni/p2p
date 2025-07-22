@@ -105,7 +105,7 @@ function AggregatedUsers() {
     return (
         <div className="font-sans min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl p-8 md:p-10">
-                <h1 className="text-5xl font-extrabold text-gray-900 text-center mb-4 leading-tight">All Interested Users 👥</h1>
+                <h1 className="text-5xl font-extrabold text-gray-900 text-center mb-4 leading-tight">All Interested Attendants</h1>
                 <p className="text-lg text-gray-700 text-center mb-10">
                     Discover all users who have shown interest in products from <strong className="text-indigo-700">{organisationDetails?.organisation_name || `Your Organisation`}.</strong>
                 </p>
@@ -113,9 +113,9 @@ function AggregatedUsers() {
                 <div className="flex justify-center mb-12">
                     <Link
                         to="/exhibitor/dashboard"
-                        className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
+                        className="px-8 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-900 transition duration-300 ease-in-out transform hover:scale-105 text-lg"
                     >
-                        ⬅️ Back to Dashboard
+                        Back to Dashboard
                     </Link>
                 </div>
 
@@ -132,7 +132,7 @@ function AggregatedUsers() {
                         {allInterests.map(userAggregate => (
                             <div
                                 key={userAggregate.user?.user_id}
-                                className="bg-white border border-gray-200 rounded-xl shadow-md p-5 flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:border-green-400 cursor-pointer"
+                                className="bg-white border border-gray-200 rounded-xl shadow-md p-5 flex items-center justify-between transition-all duration-300 hover:shadow-lg hover:border-amber-400 cursor-pointer"
                                 onClick={() => handleViewUserDetail(userAggregate)}
                             >
                                 <div className="flex-grow">
@@ -146,7 +146,7 @@ function AggregatedUsers() {
                                         Interested in: {userAggregate.interests.map(i => i.product?.product_name).join(', ')}
                                     </p>
                                 </div>
-                                <button className="ml-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                                <button className="ml-4 px-4 py-2 bg-amber-500 text-black rounded-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50">
                                     View Details
                                 </button>
                             </div>

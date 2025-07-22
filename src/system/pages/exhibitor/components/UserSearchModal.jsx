@@ -3,21 +3,18 @@ import userService from "../../../../services/user.service.js";
 
 function UserSearchModal({ productId, onSelectUser, onClose, organisationId }) {
     const [searchTerm, setSearchTerm] = useState('');
-    const [allUsers, setAllUsers] = useState([]); // Stores all users fetched from backend
-    const [filteredUsers, setFilteredUsers] = useState([]); // Users displayed after search
+    const [allUsers, setAllUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [initialLoadComplete, setInitialLoadComplete] = useState(false); // To manage initial loading state
+    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-    // Fetch all users once when the modal opens
     useEffect(() => {
         const fetchAllUsers = async () => {
             setLoading(true);
             try {
-                // Assuming getAllUsers returns { success: true, data: [...] }
                 const res = await userService.getAllUsers();
                 setAllUsers(res.data.data);
-                // No initial filter, as search term is empty
             } catch (err) {
                 console.error('Error fetching all users:', err);
                 setError(err.response?.data?.message || 'Failed to load users for search.');
@@ -28,16 +25,14 @@ function UserSearchModal({ productId, onSelectUser, onClose, organisationId }) {
         };
 
         fetchAllUsers();
-    }, []); // Empty dependency array means this runs once on mount
+    }, []);
 
-    // Effect to filter users whenever searchTerm or allUsers changes
     useEffect(() => {
         if (searchTerm.trim() === '') {
-            setFilteredUsers([]); // Clear results if search term is empty
+            setFilteredUsers([]);
             return;
         }
 
-        // Filter users based on the search term (case-insensitive email match)
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         const results = allUsers.filter(user =>
             user.email && user.email.toLowerCase().includes(lowerCaseSearchTerm)
@@ -47,23 +42,18 @@ function UserSearchModal({ productId, onSelectUser, onClose, organisationId }) {
 
 
     const handleSearch = (e) => {
-        // With frontend filtering, hitting "Search" simply updates the searchTerm,
-        // which triggers the useEffect hook to re-filter.
         e.preventDefault();
-        // The filtering logic is now in the useEffect,
-        // so we just ensure searchTerm is set and error is cleared.
         setError('');
         if (!searchTerm.trim()) {
             setError('Please enter an email to search.');
         }
-        // No explicit API call here anymore
     };
 
     if (loading && !initialLoadComplete) {
         return (
             <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
                 <div className="text-center p-8 bg-white rounded-lg shadow-lg w-full max-w-lg">
-                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-amber-500 border-t-transparent mx-auto mb-4"></div>
                     <p className="text-xl font-semibold text-gray-700">Loading users...</p>
                 </div>
             </div>
@@ -103,13 +93,13 @@ function UserSearchModal({ productId, onSelectUser, onClose, organisationId }) {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="e.g., user@example.com"
-                            className="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+                            className="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-amber-500 focus:border-amber-500 text-gray-800"
                             required
                         />
                         <button
                             type="submit"
-                            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:opacity-50"
-                            disabled={loading} // Still disable if initial load is happening
+                            className="px-6 py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-md hover:bg-amber-700 transition duration-300 ease-in-out disabled:opacity-50"
+                            disabled={loading}
                         >
                             Search
                         </button>

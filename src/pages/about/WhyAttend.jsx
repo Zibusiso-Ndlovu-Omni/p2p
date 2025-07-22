@@ -14,6 +14,7 @@ import {
     BookOpenIcon
 } from "@heroicons/react/24/outline"
 import aboutImage2 from "../../assets/2.jpg";
+import { Link } from "react-router-dom";
 
 export default function WhyAttend() {
     const reasons = [
@@ -170,12 +171,12 @@ export default function WhyAttend() {
                             Join hundreds of trade professionals, logistics experts, and business leaders at P2P Zimbabwe 2025.
                         </Typography>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
-                                Register to Attend
-                            </button>
-                            <button className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
-                                Learn More
-                            </button>
+                            <Link to={"/register"} >
+                                <button className="border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-gray-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                                    Register Now
+                                </button>
+                            </Link>
+
                         </div>
                     </div>
                 </div>

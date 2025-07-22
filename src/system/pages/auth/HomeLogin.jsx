@@ -35,7 +35,7 @@ export function LandingPage() {
                         <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                         <div className="relative flex items-center justify-center space-x-3">
                             <User className="w-5 h-5" />
-                            <span>User Login</span>
+                            <span>Attendant Login</span>
                         </div>
                     </button>
 

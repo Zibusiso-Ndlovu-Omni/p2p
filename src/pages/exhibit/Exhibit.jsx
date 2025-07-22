@@ -1,5 +1,6 @@
 import {Button, Typography, Card, CardBody} from "@material-tailwind/react";
 import {CheckCircleIcon, StarIcon, TrophyIcon, AcademicCapIcon, BuildingOfficeIcon} from "@heroicons/react/24/solid";
+import {Link} from "react-router-dom";
 
 export default function Exhibit() {
     const ticketOptions = [
@@ -150,7 +151,7 @@ export default function Exhibit() {
                                         size="lg"
                                         className={`w-full ${ticket.popular ? 'bg-amber-400 text-gray-900 hover:bg-amber-500' : 'bg-white text-gray-900 hover:bg-gray-100'}`}
                                     >
-                                        {ticket.price === 'Free' ? 'Register Free' : 'Purchase Ticket'}
+                                        {ticket.price === 'Free' ? <Link to={"/register"}>Register Free</Link> : 'Contact Us'}
                                     </Button>
                                 </CardBody>
                             </Card>
@@ -206,9 +207,6 @@ export default function Exhibit() {
                                         <Typography className="text-blue-100 text-sm">Attendee registration</Typography>
                                     </div>
                                 </div>
-                                <Button size="lg" className="w-full bg-amber-400 text-gray-900 hover:bg-amber-500">
-                                    Apply to Host Workshop
-                                </Button>
                             </div>
                         </Card>
                     </div>
@@ -257,7 +255,7 @@ export default function Exhibit() {
                                         </Typography>
 
                                         <Button size="lg" className="w-full bg-amber-400 text-gray-900 hover:bg-amber-500 mb-4">
-                                            Book Exhibition Space
+                                            contact us
                                         </Button>
 
                                         <Typography className="text-sm text-gray-400 text-center">
@@ -298,14 +296,7 @@ export default function Exhibit() {
                     </Typography>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Button size="lg" className="bg-gray-900 text-amber-400 hover:bg-gray-800">
-                            Get Started Today
-                        </Button>
-                        <Button
-                            size="lg"
-                            variant="outlined"
-                            className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-amber-400"
-                        >
-                            Contact Us for More Info
+                            Contact Us For More Info
                         </Button>
                     </div>
                 </div>
